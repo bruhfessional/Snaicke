@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snaicke/bloc/food_status/food_status_bloc.dart';
 import 'package:snaicke/bloc/snake_movement/snake_movement_bloc.dart';
-import 'package:snaicke/game_zone/game_zone.dart';
+import 'package:snaicke/entity/game_zone.dart';
 import 'package:snaicke/entity/position.dart';
 import 'package:snaicke/entity/snake.dart';
 
@@ -72,7 +72,7 @@ class GameZoneScreen extends StatelessWidget {
                     position: position,
                   ),
                 ) ??
-                const _PlaceholderWidget(message: 'Initial'),
+                const _PlaceholderWidget(message: 'Error'),
           );
         },
       ),

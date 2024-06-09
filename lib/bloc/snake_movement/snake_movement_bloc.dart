@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:snaicke/game_zone/game_zone.dart';
+import 'package:snaicke/entity/game_zone.dart';
 import 'package:snaicke/entity/position.dart';
 import 'package:snaicke/entity/snake.dart';
 
