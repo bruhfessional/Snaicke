@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snaicke/bloc/food_status/food_status_bloc.dart';
 import 'package:snaicke/bloc/snake_health/snake_health_bloc.dart';
@@ -76,7 +77,23 @@ class GameScreenPage extends StatelessWidget {
           //   },
           // ),
         ],
-        child: GameZoneScreen(gameZone: GameZoneCases.classic),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 10,
+                  ),
+                ),
+                child: GameZoneScreen(gameZone: GameZoneCases.classic),
+              ),
+            ),
+            Text('SCORE: '),
+            const SizedBox(height: 20)
+          ],
+        ),
       ),
     );
   }

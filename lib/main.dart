@@ -25,15 +25,7 @@ class App extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: const Text(gameName),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.red,
-              width: 10,
-            ),
-          ),
-          child: const GameScreenPage(),
-        ),
+        body: const GameScreenPage(),
       ),
     );
   }

@@ -21,6 +21,8 @@ class GameZoneScreen extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           // childAspectRatio: gameZone.ySize / gameZone.xSize,
           // childAspectRatio: gameZone.xSize / gameZone.ySize,
+          childAspectRatio:
+              (gameZone.ySize - gameZone.xSize).abs() / gameZone.xSize,
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
           // crossAxisCount: ((gameZone.xSize / gameZone.ySize) > 1)
