@@ -37,8 +37,8 @@ class GameZoneScreen extends StatelessWidget {
           return BlocBuilder<SnakeMovementBloc, SnakeMovementState>(
             builder: (BuildContext context, SnakeMovementState state) =>
                 state.mapOrNull(
-                  initial: (s) => const _PlaceholderWidget(message: 'Loading'),
-                  loading: (s) => const _PlaceholderWidget(message: 'Initial'),
+                  initial: (s) => const _PlaceholderWidget(message: 'Initial'),
+                  loading: (s) => const _PlaceholderWidget(message: 'Loading'),
                   loadSuccess: (s) => GameZoneWidget(
                     snake: s.snake,
                     position: position,
