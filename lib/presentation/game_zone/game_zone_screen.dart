@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snaicke/bloc/food_status/food_status_bloc.dart';
 import 'package:snaicke/bloc/snake_movement/snake_movement_bloc.dart';
 import 'package:snaicke/entity/game_zone.dart';
 import 'package:snaicke/entity/position.dart';
-import 'package:snaicke/entity/snake.dart';
+import 'package:snaicke/presentation/game_zone/game_zone_widget.dart';
 
 class GameZoneScreen extends StatelessWidget {
   const GameZoneScreen({super.key, required this.gameZone});
@@ -15,33 +14,13 @@ class GameZoneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onHorizontalDragUpdate: (d) {
-        if (d.delta.dx < -sensitivity) {
-          context
-              .read<SnakeMovementBloc>()
-              .add(SnakeMovementEvent.left(gameZone));
-        } else if (d.delta.dx > sensitivity) {
-          context
-              .read<SnakeMovementBloc>()
-              .add(SnakeMovementEvent.right(gameZone));
-        }
-      },
-      onVerticalDragUpdate: (d) {
-        if (d.delta.dy < -sensitivity) {
-          context
-              .read<SnakeMovementBloc>()
-              .add(SnakeMovementEvent.up(gameZone));
-        } else if (d.delta.dy > sensitivity) {
-          context
-              .read<SnakeMovementBloc>()
-              .add(SnakeMovementEvent.down(gameZone));
-        }
-      },
+      onHorizontalDragUpdate: (d) => _onHorizontalDragUpdate(d, context),
+      onVerticalDragUpdate: (d) => _onVerticalDragUpdate(d, context),
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          // maxCrossAxisExtent: 200,
-          // childAspectRatio: 3 / 2,
+          // childAspectRatio: gameZone.ySize / gameZone.xSize,
+          // childAspectRatio: gameZone.xSize / gameZone.ySize,
           crossAxisSpacing: 2,
           mainAxisSpacing: 2,
           // crossAxisCount: ((gameZone.xSize / gameZone.ySize) > 1)
@@ -54,20 +33,17 @@ class GameZoneScreen extends StatelessWidget {
         ),
         itemCount: (gameZone.xSize * gameZone.ySize).toInt(),
         itemBuilder: (BuildContext ctx, index) {
-          int xPos =
-              (index + 1) <= gameZone.xSize ? index : (index) % gameZone.xSize;
-          int yPos = index ~/ gameZone.xSize;
-          Position position = Position(x: xPos, y: yPos);
+          Position position = _calculatePosition(index);
           return BlocBuilder<SnakeMovementBloc, SnakeMovementState>(
             builder: (BuildContext context, SnakeMovementState state) =>
                 state.mapOrNull(
                   initial: (s) => const _PlaceholderWidget(message: 'Loading'),
                   loading: (s) => const _PlaceholderWidget(message: 'Initial'),
-                  loadSuccess: (s) => _GameZoneWidget(
+                  loadSuccess: (s) => GameZoneWidget(
                     snake: s.snake,
                     position: position,
                   ),
-                  update: (s) => _GameZoneWidget(
+                  update: (s) => GameZoneWidget(
                     snake: s.snake,
                     position: position,
                   ),
@@ -78,44 +54,27 @@ class GameZoneScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class _GameZoneWidget extends StatelessWidget {
-  final Snake snake;
-  final Position position;
+  Position _calculatePosition(int index) {
+    int xPos = (index + 1) <= gameZone.xSize ? index : (index) % gameZone.xSize;
+    int yPos = index ~/ gameZone.xSize;
+    return Position(x: xPos, y: yPos);
+  }
 
-  const _GameZoneWidget({
-    super.key,
-    required this.snake,
-    required this.position,
-  });
+  void _onVerticalDragUpdate(DragUpdateDetails d, BuildContext context) {
+    if (d.delta.dy < -sensitivity) {
+      context.read<SnakeMovementBloc>().add(SnakeMovementEvent.up(gameZone));
+    } else if (d.delta.dy > sensitivity) {
+      context.read<SnakeMovementBloc>().add(SnakeMovementEvent.down(gameZone));
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FoodStatusBloc, FoodStatusState>(
-      builder: (BuildContext context, FoodStatusState state) {
-        return Container(
-          decoration: BoxDecoration(
-            color: snake.config.contains(
-              position,
-            )
-                ? position == snake.config.first
-                    ? Colors.black
-                    : Colors.black54
-                : state.map(
-                    loadSuccess: (s) => s.food.positions.contains(position)
-                        ? Colors.green
-                        : Colors.amber,
-                    update: (s) => s.food.positions.contains(position)
-                        ? Colors.green
-                        : Colors.amber,
-                    initial: (s) => Colors.amber,
-                    loading: (s) => Colors.amber,
-                  ),
-          ),
-        );
-      },
-    );
+  void _onHorizontalDragUpdate(DragUpdateDetails d, BuildContext context) {
+    if (d.delta.dx < -sensitivity) {
+      context.read<SnakeMovementBloc>().add(SnakeMovementEvent.left(gameZone));
+    } else if (d.delta.dx > sensitivity) {
+      context.read<SnakeMovementBloc>().add(SnakeMovementEvent.right(gameZone));
+    }
   }
 }
 
