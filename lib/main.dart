@@ -21,7 +21,7 @@ class App extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text(gameName),
+          title: const Center(child: Text(gameName)),
         ),
         body: const GameScreenPage(),
       ),
