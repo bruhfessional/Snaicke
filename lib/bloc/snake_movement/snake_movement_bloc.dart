@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:snaicke/entity/direction.dart';
 import 'package:snaicke/entity/game_zone.dart';
 import 'package:snaicke/entity/position.dart';
 import 'package:snaicke/entity/snake.dart';
@@ -33,6 +34,7 @@ class SnakeMovementBloc extends Bloc<SnakeMovementEvent, SnakeMovementState> {
     // Snake snake = event.snake;
     Snake? snake = state.snake;
     if (snake != null) {
+      snake.direction = Direction.right;
       emitter(const SnakeMovementState.right());
       snake.config.removeLast();
       Position first = snake.config.first;
@@ -50,6 +52,7 @@ class SnakeMovementBloc extends Bloc<SnakeMovementEvent, SnakeMovementState> {
     // Snake snake = event.snake;
     Snake? snake = state.snake;
     if (snake != null) {
+      snake.direction = Direction.left;
       emitter(const SnakeMovementState.left());
       snake.config.removeLast();
       Position first = snake.config.first;
@@ -67,7 +70,9 @@ class SnakeMovementBloc extends Bloc<SnakeMovementEvent, SnakeMovementState> {
       _DownSnakeMovementEvent event, Emitter<SnakeMovementState> emitter) {
     // Snake snake = event.snake;
     Snake? snake = state.snake;
+
     if (snake != null) {
+      snake.direction = Direction.down;
       emitter(const SnakeMovementState.down());
       snake.config.removeLast();
       Position first = snake.config.first;
@@ -85,6 +90,7 @@ class SnakeMovementBloc extends Bloc<SnakeMovementEvent, SnakeMovementState> {
     // Snake snake = event.snake;
     Snake? snake = state.snake;
     if (snake != null) {
+      snake.direction = Direction.up;
       emitter(const SnakeMovementState.up());
       snake.config.removeLast();
       Position first = snake.config.first;

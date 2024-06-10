@@ -1,11 +1,18 @@
 import 'dart:collection';
 
+import 'package:snaicke/entity/direction.dart';
 import 'package:snaicke/entity/position.dart';
 import 'package:snaicke/entity/snake.dart';
 
 class SnakeCases {
-  static Snake nullSnake = Snake(config: _QueueCases.nullable());
-  static Snake classic = Snake(config: _QueueCases.classic());
+  static Snake nullSnake = Snake(
+    config: _QueueCases.nullable(),
+    direction: Direction.down,
+  );
+  static Snake classic = Snake(
+    config: _QueueCases.classic(),
+    direction: Direction.down,
+  );
 }
 
 class _QueueCases {

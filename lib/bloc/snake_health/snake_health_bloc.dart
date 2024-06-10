@@ -28,8 +28,10 @@ class SnakeHealthBloc extends Bloc<SnakeHealthEvent, SnakeHealthState> {
 
   void _checkHandler(
       SnakeHealthEvent event, Emitter<SnakeHealthState> emitter) {
-    Snake exceptionSnake =
-        event.snake.copyWith(Queue<Position>.from(event.snake.config));
+    Snake exceptionSnake = event.snake.copyWith(
+      Queue<Position>.from(event.snake.config),
+      event.snake.direction,
+    );
     exceptionSnake.config.removeFirst();
     if (exceptionSnake.config.contains(event.snake.config.first)) {
       emitter(SnakeHealthState.dead(event.snake));
