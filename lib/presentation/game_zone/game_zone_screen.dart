@@ -85,17 +85,25 @@ class GameZoneScreen extends StatelessWidget {
   // }
 
   void _onVerticalDragEnd(double d, BuildContext context, Snake snake) {
-    if (d < 0 && (snake.direction != Direction.up)) {
+    if (d < 0
+        // && (snake.direction != Direction.up)
+        ) {
       context.read<SnakeMovementBloc>().add(SnakeMovementEvent.up(gameZone));
-    } else if (snake.direction != Direction.down) {
+    } else
+    // if (snake.direction != Direction.down)
+    {
       context.read<SnakeMovementBloc>().add(SnakeMovementEvent.down(gameZone));
     }
   }
 
   void _onHorizontalDragEnd(double d, BuildContext context, Snake snake) {
-    if (d < 0 && (snake.direction != Direction.left)) {
+    if (d < 0
+        // && (snake.direction != Direction.left)
+        ) {
       context.read<SnakeMovementBloc>().add(SnakeMovementEvent.left(gameZone));
-    } else if (snake.direction != Direction.right) {
+    } else
+    // if (snake.direction != Direction.right)
+    {
       context.read<SnakeMovementBloc>().add(SnakeMovementEvent.right(gameZone));
     }
   }
