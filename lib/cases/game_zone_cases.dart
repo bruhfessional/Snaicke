@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:snaicke/entity/game_zone.dart';
 
 class GameZoneCases {
@@ -20,4 +21,21 @@ class GameZoneCases {
     xSize: 50,
     ySize: 20,
   );
+
+  static GameZone classicConstraints(BoxConstraints constraints) {
+    return GameZone(
+      xSize: classic.xSize,
+      ySize: (classic.xSize * constraints.maxHeight / constraints.maxWidth)
+          .toInt(),
+    );
+  }
+
+  static GameZone custom(BoxConstraints constraints, GameZone customGameZone) {
+    return GameZone(
+      xSize: customGameZone.xSize,
+      ySize:
+          (customGameZone.xSize * constraints.maxHeight / constraints.maxWidth)
+              .toInt(),
+    );
+  }
 }

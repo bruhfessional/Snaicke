@@ -80,18 +80,32 @@ class GameScreenPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.red,
-                    width: 10,
+              flex: 10,
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) =>
+                    Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      // color: Colors.red,
+                      color: Colors.transparent,
+                      width: 10,
+                    ),
+                  ),
+                  child: GameZoneScreen(
+                    gameZone: GameZoneCases.custom(
+                      constraints,
+                      GameZoneCases.classic,
+                    ),
                   ),
                 ),
-                child: GameZoneScreen(gameZone: GameZoneCases.classic),
               ),
             ),
-            Text('SCORE: '),
-            const SizedBox(height: 20)
+            // const Expanded(
+            //   flex: 1,
+            //   child: Center(
+            //     child: Text('SCORE: '),
+            //   ),
+            // ),
           ],
         ),
       ),

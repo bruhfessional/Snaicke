@@ -13,46 +13,53 @@ class GameZoneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragUpdate: (d) => _onHorizontalDragUpdate(d, context),
-      onVerticalDragUpdate: (d) => _onVerticalDragUpdate(d, context),
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          // childAspectRatio: gameZone.ySize / gameZone.xSize,
-          // childAspectRatio: gameZone.xSize / gameZone.ySize,
-          childAspectRatio:
-              (gameZone.ySize - gameZone.xSize).abs() / gameZone.xSize,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
-          // crossAxisCount: ((gameZone.xSize / gameZone.ySize) > 1)
-          //     ? gameZone.ySize
-          //     // : gameZone.xSize,
-          //     : ((gameZone.xSize / gameZone.ySize) < 1)
-          //         ? gameZone.xSize
-          //         : gameZone.xSize ~/ 2,
-          crossAxisCount: gameZone.xSize,
+    return Center(
+      child: GestureDetector(
+        onHorizontalDragUpdate: (d) => _onHorizontalDragUpdate(d, context),
+        onVerticalDragUpdate: (d) => _onVerticalDragUpdate(d, context),
+        child: GridView.builder(
+          // shrinkWrap: true,
+          // clipBehavior: Clip.antiAlias,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            // childAspectRatio: gameZone.ySize / gameZone.xSize,
+            // childAspectRatio: gameZone.xSize / gameZone.ySize,
+            // childAspectRatio:
+            //     (gameZone.ySize - gameZone.xSize).abs() / gameZone.xSize,
+            // childAspectRatio: gameZone.ySize / gameZone.xSize,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+            // crossAxisCount: ((gameZone.xSize / gameZone.ySize) > 1)
+            //     ? gameZone.ySize
+            //     // : gameZone.xSize,
+            //     : ((gameZone.xSize / gameZone.ySize) < 1)
+            //         ? gameZone.xSize
+            //         : gameZone.xSize ~/ 2,
+            crossAxisCount: gameZone.xSize,
+          ),
+          itemCount: (gameZone.xSize * gameZone.ySize).toInt() ,
+          itemBuilder: (BuildContext ctx, index) {
+            Position position = _calculatePosition(index);
+            return BlocBuilder<SnakeMovementBloc, SnakeMovementState>(
+              builder: (BuildContext context, SnakeMovementState state) =>
+                  state.mapOrNull(
+                    initial: (s) =>
+                        const _PlaceholderWidget(message: 'Initial'),
+                    loading: (s) =>
+                        const _PlaceholderWidget(message: 'Loading'),
+                    loadSuccess: (s) => GameZoneWidget(
+                      snake: s.snake,
+                      position: position,
+                    ),
+                    update: (s) => GameZoneWidget(
+                      snake: s.snake,
+                      position: position,
+                    ),
+                  ) ??
+                  const _PlaceholderWidget(message: 'Error'),
+            );
+          },
         ),
-        itemCount: (gameZone.xSize * gameZone.ySize).toInt(),
-        itemBuilder: (BuildContext ctx, index) {
-          Position position = _calculatePosition(index);
-          return BlocBuilder<SnakeMovementBloc, SnakeMovementState>(
-            builder: (BuildContext context, SnakeMovementState state) =>
-                state.mapOrNull(
-                  initial: (s) => const _PlaceholderWidget(message: 'Initial'),
-                  loading: (s) => const _PlaceholderWidget(message: 'Loading'),
-                  loadSuccess: (s) => GameZoneWidget(
-                    snake: s.snake,
-                    position: position,
-                  ),
-                  update: (s) => GameZoneWidget(
-                    snake: s.snake,
-                    position: position,
-                  ),
-                ) ??
-                const _PlaceholderWidget(message: 'Error'),
-          );
-        },
       ),
     );
   }

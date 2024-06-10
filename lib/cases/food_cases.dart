@@ -15,7 +15,7 @@ class _ListCases {
   static List<Position> classic() {
     List<Position> list = [];
     list.add(Position(x: 5, y: 10));
-    list.add(Position(x: 10, y: 15));
+    list.add(Position(x: 9, y: 15));
     list.add(Position(x: 2, y: 8));
     list.add(Position(x: 1, y: 0));
     return list;
